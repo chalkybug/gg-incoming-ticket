@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    container_name: gg-incoming-ticket-bot
+    command: python ./src/main.py
+    ports:
+      - 5678:5678
+    volumes:
+      - .:/code
+    environment:
+      - PYDEVD_DISABLE_FILE_VALIDATION=1
+# Run : docker compose up --build -d
