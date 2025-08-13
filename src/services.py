@@ -16,14 +16,14 @@ from models import JiraBatchModel, JiraViewModel
 
 # Load environment variables from .env file
 load_dotenv()
-global JIRA_EMAIL, JIRA_API_TOKEN, REMINDER_BOT_URL, GG_TITLE, GG_MESSAGE, GG_SUB_TITLE, MISS_FTC
+global JIRA_EMAIL, JIRA_API_TOKEN, REMINDER_BOT_URL_INCOMING, GG_TITLE_INCOMING, GG_MESSAGE_INCOMING, GG_SUB_TITLE_INCOMING, MISS_FTC
 JIRA_EMAIL = os.getenv("JIRA_EMAIL")
 JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
 
-REMINDER_BOT_URL = os.getenv("REMINDER_BOT_URL")
-GG_TITLE = os.getenv("GG_TITLE")
-GG_MESSAGE = os.getenv("GG_MESSAGE")
-GG_SUB_TITLE = os.getenv("GG_SUB_TITLE")
+REMINDER_BOT_URL_INCOMING = os.getenv("REMINDER_BOT_URL_INCOMING")
+GG_TITLE_INCOMING = os.getenv("GG_TITLE_INCOMING")
+GG_MESSAGE_INCOMING = os.getenv("GG_MESSAGE_INCOMING")
+GG_SUB_TITLE_INCOMING = os.getenv("GG_SUB_TITLE_INCOMING")
 
 # query
 MISS_FTC = os.getenv("MISS_FTC")
@@ -39,7 +39,7 @@ def GChat_Message(incoming_tickets: list):
     for ticket in incoming_tickets:
         message_lines.append(f"🎫 {ticket}")
 
-    message_lines.append(f"\n{GG_MESSAGE}\n")
+    message_lines.append(f"\n{GG_MESSAGE_INCOMING}\n")
     message_content = "\n".join(message_lines)
 
     FiveDayForecastSection = [
@@ -61,7 +61,7 @@ def GChat_Message(incoming_tickets: list):
                 "cardId": "unique-card-id",
                 "card": {
                     "header": {
-                        "title": f"{GG_TITLE} - {GG_SUB_TITLE}",
+                        "title": f"{GG_TITLE_INCOMING} - {GG_SUB_TITLE_INCOMING}",
                     },
                     "sections": FiveDayForecastSection,
                 },
@@ -71,7 +71,7 @@ def GChat_Message(incoming_tickets: list):
     message_headers = {"Content-Type": "application/json; charset=UTF-8"}
     http_obj = Http()
     response = http_obj.request(
-        uri=REMINDER_BOT_URL,
+        uri=REMINDER_BOT_URL_INCOMING,
         method="POST",
         headers=message_headers,
         body=json.dumps(bot_message),
